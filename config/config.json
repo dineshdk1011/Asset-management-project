@@ -1,0 +1,35 @@
+{
+  "development": {
+    "username": "asset_management_uj8p_user",
+    "password": "kpoD6HysgytomtIPO9LPBulOdKaWoiwe",
+    "database": "asset_management_uj8p",
+    "host": "dpg-cs5t7vg8fa8c73aqefvg-a.singapore-postgres.render.com",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "ssl": true
+    }
+  },
+  "test": {
+    "username": "asset_management_uj8p_user",
+    "password": "kpoD6HysgytomtIPO9LPBulOdKaWoiwe",
+    "database": "asset_management_uj8p",
+    "host": "dpg-cs5t7vg8fa8c73aqefvg-a.singapore-postgres.render.com",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "ssl": true
+    }
+  },
+  "production": {
+    "username": "asset_management_uj8p_user",
+    "password": "kpoD6HysgytomtIPO9LPBulOdKaWoiwe",
+    "database": "asset_management_uj8p",
+    "host": "dpg-cs5t7vg8fa8c73aqefvg-a.singapore-postgres.render.com",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "ssl": true
+    }
+  }
+}

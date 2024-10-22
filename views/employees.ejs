@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: white;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            width: 40%;
+            height: auto;
+        }
+
+        .form-control1 {
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            height: auto;
+        }
+
+        .btn {
+            border-radius: 30px;
+            padding: 10px 30px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            margin-top: 10px;
+            color: white;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.5em 1em;
+            border-radius: 20px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .toggle-form-btn {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .newdiv {
+            display: flex;
+            gap: 2rem;
+        }
+
+        #employeeForm {
+            display: none;
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .wrapper {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            padding-top: 20px;
+            color: white;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            color: white;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 10px;
+            display: block;
+            border-radius: 4px;
+            margin: 10px 0;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+
+        .content {
+            margin-left: 250px;
+            width: 100%;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <%- include('partials/sidebar') %>
+
+            <div class="content">
+
+                <div class="toggle-form-btn">
+                    <h1>Employee Management</h1>
+                    <div class="newdiv">
+                        <div>
+                            <select id="statusFilter" class="form-control1">
+                                <option value="all">All Employees</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <button id="showFormButton" class="btn btn-success">Add Employee</button>
+                        <button id="cancelFormButton" class="btn btn-danger" style="display: none;">Cancel</button>
+                    </div>
+                </div>
+
+
+                <form id="employeeForm">
+                    <div class="formdiv">
+                        <div class="form-group row mb-3">
+                            <label for="employeeName" class="col-sm-3 col-form-label">Employee Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="employeeName" name="name"
+                                    placeholder="Enter name" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label for="employeeEmail" class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" id="employeeEmail" name="email"
+                                    placeholder="Enter email" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label for="status" class="col-sm-3 col-form-label">Status</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="status" name="status">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="submitEmployee">Add Employee</button>
+                            <button type="button" class="btn btn-primary" id="updateEmployee"
+                                style="display: none;">Update
+                                Employee</button>
+                        </div>
+                    </div>
+                </form>
+
+                <hr>
+                <div id="employeeList">
+                    <table id="employeesTable" class="display table table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeesBody">
+                            <!-- Employee data will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- DataTables.net JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let isEditMode = false;
+        let editingEmployeeId = null;
+
+        // Show form to add a new employee
+        document.getElementById('showFormButton').addEventListener('click', function () {
+            document.getElementById('employeeForm').style.display = 'block';
+            document.getElementById('employeeList').style.display = 'none';
+            document.getElementById('cancelFormButton').style.display = 'inline-block';
+            document.getElementById('showFormButton').style.display = 'none';
+            document.querySelector('.btn-primary').textContent = 'Add Employee';
+            isEditMode = false; // Set to false for adding new employee
+        });
+
+        // Hide form
+        document.getElementById('cancelFormButton').addEventListener('click', function () {
+            document.getElementById('employeeForm').style.display = 'none';
+            document.getElementById('employeeList').style.display = 'block';
+            document.getElementById('cancelFormButton').style.display = 'none';
+            document.getElementById('showFormButton').style.display = 'inline-block';
+            document.getElementById('employeeForm').reset(); // Reset form
+            editingEmployeeId = null;
+            isEditMode = false; // Reset edit mode
+        });
+
+        // Fetch employees and render table
+        function fetchEmployees() {
+            axios.get('/api/employees/')
+                .then(function (response) {
+                    const employees = response.data;
+                    let employeeRows = '';
+                    employees.forEach(function (employee, index) {
+                        employeeRows += `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${employee.name}</td>
+                                <td>${employee.email}</td>
+                                <td>${employee.active == true ? "Active" : "Inactive"}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" onclick="editEmployee(${employee.id})">Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${employee.id})">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    document.getElementById('employeesBody').innerHTML = employeeRows;
+                    $('#employeesTable').DataTable();
+                })
+                .catch(function (error) {
+                    console.error('There was an error fetching the employee data:', error);
+                });
+        }
+
+        // Handle form submission (add or update employee)
+        document.getElementById('employeeForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const name = document.getElementById('employeeName').value;
+            const email = document.getElementById('employeeEmail').value;
+            const status = document.getElementById('status').value;
+
+            // If in edit mode, update employee
+            if (isEditMode) {
+                axios.post(`/api/employees/edit/${editingEmployeeId}`, {
+                    name: name,
+                    email: email,
+                    active: status == "active" ? true : false
+                })
+                    .then(function (response) {
+                        fetchEmployees(); // Reload employee list
+                        document.getElementById('employeeForm').reset();
+                        document.getElementById('employeeForm').style.display = 'none';
+                        document.getElementById('employeeList').style.display = 'block';
+                        document.getElementById('cancelFormButton').style.display = 'none';
+                        document.getElementById('showFormButton').style.display = 'inline-block';
+                        editingEmployeeId = null; // Reset edit mode
+                        isEditMode = false;
+                    })
+                    .catch(function (error) {
+                        console.error('There was an error updating the employee:', error);
+                    });
+            } else {
+                // If not in edit mode, add new employee
+                axios.post('/api/employees/add', {
+                    name: name,
+                    email: email,
+                    active: status == "active" ? true : false
+                })
+                    .then(function (response) {
+                        fetchEmployees();
+                        document.getElementById('employeeForm').reset();
+                        document.getElementById('employeeForm').style.display = 'none';
+                        document.getElementById('employeeList').style.display = 'block';
+                        document.getElementById('cancelFormButton').style.display = 'none';
+                        document.getElementById('showFormButton').style.display = 'inline-block';
+                    })
+                    .catch(function (error) {
+                        console.error('There was an error adding the employee:', error);
+                    });
+            }
+        });
+
+        // Edit employee - pre-fill form and change to update mode
+        function editEmployee(id) {
+            axios.get(`/api/employees/view/${id}`)
+                .then(function (response) {
+                    const employee = response.data;
+
+                    // Fill form with existing employee data
+                    document.getElementById('employeeName').value = employee[0].name;
+                    document.getElementById('employeeEmail').value = employee[0].email;
+                    document.getElementById('status').value = employee[0].active ? "active" : "inactive";
+
+                    // Show form with updated button text
+                    document.getElementById('employeeForm').style.display = 'block';
+                    document.getElementById('employeeList').style.display = 'none';
+                    document.getElementById('cancelFormButton').style.display = 'inline-block';
+                    document.getElementById('showFormButton').style.display = 'none';
+                    document.querySelector('.btn-primary').textContent = 'Update Employee';
+
+                    // Set editing mode and store the employee ID
+                    isEditMode = true;
+                    editingEmployeeId = id;
+                })
+                .catch(function (error) {
+                    console.error('There was an error fetching the employee details:', error);
+                });
+        }
+
+        // Delete employee
+        function deleteEmployee(id) {
+            if (confirm('Are you sure you want to delete this employee?')) {
+                axios.post(`/api/employees/delete/${id}`)
+                    .then(function (response) {
+                        fetchEmployees();
+                    })
+                    .catch(function (error) {
+                        console.error('There was an error deleting the employee:', error);
+                    });
+            }
+        }
+
+        // Fetch initial employees on page load
+        fetchEmployees();
+
+        function fetchEmployees1() {
+            const filterStatus = document.getElementById('statusFilter').value;
+            axios.get('/api/employees/')
+                .then(function (response) {
+                    const employees = response.data.filter(employee => {
+                        if (filterStatus === "all") return true;
+                        return employee.active == (filterStatus === "active");
+                    });
+
+                    let employeeRows = '';
+                    employees.forEach(function (employee, index) {
+                        employeeRows += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${employee.name}</td>
+                        <td>${employee.email}</td>
+                        <td>${employee.active ? "Active" : "Inactive"}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editEmployee(${employee.id})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${employee.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                    });
+
+                    document.getElementById('employeesBody').innerHTML = employeeRows;
+                    $('#employeesTable').DataTable();
+                })
+                .catch(function (error) {
+                    console.error('There was an error fetching the employee data:', error);
+                });
+        }
+
+        // Call fetchEmployees when filter changes
+        document.getElementById('statusFilter').addEventListener('change', fetchEmployees1);
+
+    </script>
+
+</body>
+
+</html>
