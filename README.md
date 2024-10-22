@@ -1,30 +1,31 @@
-KT Telematic Full Stack Developer Task
-Project Overview
-This project is a solution for the task provided by KT Telematic Solutions Private Limited.
+# KT Telematic Full Stack Developer Task
 
-Tech Stack
-Frontend: HTML, CSS, JavaScript
-Backend: Node.js, Express.js
-Database: PostgreSQL
-Installation
-Clone the repository:
+## Project Overview
+This project is a solution for the task provided by **KT Telematic Solutions Private Limited**. The application aims to manage assets efficiently, enabling users to track and update asset information seamlessly.
 
-bash
-Copy code
-git clone https://github.com/dineshdk1011/Asset-management-project.git
-Navigate to the project directory:
+## Tech Stack
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Node.js, Express.js
+- **Database**: PostgreSQL
 
-bash
-Copy code
-cd Asset-management-project
-Install dependencies:
 
-bash
-Copy code
-npm install
-Start the server:
+## Installation & Usage
+To set up the project locally and run the application, follow these steps:
 
-bash
-Copy code
-npm start
-Open the application in the browser at http://localhost:3001.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/dineshdk1011/Asset-management-project.git
+
+2. **Navigate to the project directory**:
+   ```bash
+   cd Asset-management-project
+
+3. **Install dependencies**:
+   ```bash
+   npm install
+
+4. **Start the server**:
+   ```bash
+   npm start
+
+Open the application in the browser: Navigate to http://localhost:3001.
