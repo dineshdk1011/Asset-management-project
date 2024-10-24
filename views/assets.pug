@@ -1,0 +1,388 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Assest Management
+    link(rel="stylesheet", href="/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+    style.
+      body {
+      background-color: #f8f9fa;
+      }
+      
+      .sidebar-link {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: black;
+      }
+      
+      .sidebar-link.active {
+      background-color: #007bff;
+      color: white;
+      }
+      
+      .sidebarhead {
+      margin-bottom: 2rem;
+      }
+      
+      .container {
+      margin-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background: white;
+      padding: 20px;
+      }
+      
+      h1,
+      h2 {
+      text-align: center;
+      color: #333;
+      }
+      
+      .form-control {
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 16px;
+      width: 40%;
+      height: auto;
+      }
+      
+      .btn {
+      border-radius: 30px;
+      padding: 10px 30px;
+      font-size: 16px;
+      }
+      
+      .btn-primary {
+      background-color: #007bff;
+      border: none;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+      }
+      
+      .btn-primary:hover {
+      background-color: #0056b3;
+      margin-top: 10px;
+      color: white;
+      }
+      
+      .table {
+      margin-top: 20px;
+      }
+      
+      .dataTables_wrapper .dataTables_paginate .paginate_button {
+      padding: 0.5em 1em;
+      border-radius: 20px;
+      }
+      
+      .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      background: #007bff;
+      color: white;
+      }
+      
+      td {
+      text-align: center;
+      }
+      
+      .toggle-form-btn {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      }
+      
+      #assetForm {
+      display: none;
+      background: #f1f1f1;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .wrapper {
+      display: flex;
+      height: 100vh;
+      }
+      
+      .sidebar {
+      width: 250px;
+      background-color: #343a40;
+      padding-top: 20px;
+      color: white;
+      position: fixed;
+      height: 100%;
+      }
+      
+      .sidebar h2 {
+      color: white;
+      }
+      
+      .sidebar a {
+      color: white;
+      text-decoration: none;
+      padding: 15px 10px;
+      display: block;
+      border-radius: 4px;
+      margin: 10px 0;
+      transition: background 0.3s ease;
+      }
+      
+      .sidebar a:hover {
+      background-color: #007bff;
+      }
+      
+      .content {
+      margin-left: 250px;
+      width: 100%;
+      padding: 20px;
+      }
+  body
+    .wrapper
+      .sidebar
+        h2.sidebarhead Admin Panel
+        a.sidebar-link(href="/") Employee Master
+        a.sidebar-link(href="/assets") Asset Master
+        a.sidebar-link(href="/categories") Asset Category Master
+        a.sidebar-link(href="/stock") Asset Stock View
+        a.sidebar-link(href="/issue") Issue Asset Management
+        a.sidebar-link(href="/return") Return Asset Management
+        a.sidebar-link(href="/scrap") Scrap Asset Management
+        a.sidebar-link(href="/history") Asset History
+      .content
+        .toggle-form-btn
+          h1 Assest Management
+          button#showFormButton.btn.btn-success Add Assest
+          button#cancelFormButton.btn.btn-danger(style="display: none;") Cancel
+        form#assetForm
+          .formdiv
+            .form-group.row.mb-3
+              label.col-sm-3.col-form-label(for="Branch") Branch
+              .col-sm-9
+                input#branch.form-control(type="text", placeholder="Enter branch name", required)
+            .form-group.row.mb-3
+              label.col-sm-3.col-form-label(for="assetName") Assest Make
+              .col-sm-9
+                input#assetsMake.form-control(type="text", name="name", placeholder="Enter name", required)
+            .form-group.row.mb-3
+              label.col-sm-3.col-form-label(for="assetEmail") Assest Model
+              .col-sm-9
+                input#assetsModel.form-control(type="text", name="name", placeholder="Assest Model", required)
+            .form-group.row.mb-3
+              label.col-sm-3.col-form-label(for="assetEmail") Assest Type
+              .col-sm-9
+                input#assetsType.form-control(type="text", name="name", placeholder="Assest Type", required)
+            .form-group.row.mb-3
+              label.col-sm-3.col-form-label(for="status") Status
+              .col-sm-9
+                select#assetsstatus.form-control(name="status")
+                  option(value="Available") Available
+                  option(value="Issued") Issued
+                  option(value="Scrapped") Scrapped
+            .form-group.row.mb-3
+              label.col-sm-3.col-form-label(for="Branch") Asset Value
+              .col-sm-9
+                input#value.form-control(type="text", placeholder="Enter Asset Value", required)
+            .text-center
+              button#submitButton.btn.btn-primary(type="submit") Add Asset
+        hr
+        #assetList
+          table#assetTable.display.table.table-bordered(style="width:100%")
+            thead.table-dark
+              tr
+                th ID
+                th Make
+                th Model
+                th Type
+                th Unique Id
+                th Status
+                th Branch
+                th Value
+                th Actions
+            tbody#assetsBody
+              // asset data will be dynamically added here
+    // jQuery
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    // Axios
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    // DataTables.net JS
+    script(src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
+    script.
+      document.getElementById('showFormButton').addEventListener('click', function () {
+      document.getElementById('assetForm').style.display = 'block';
+      document.getElementById('assetList').style.display = 'none';
+      document.getElementById('cancelFormButton').style.display = 'inline-block';
+      document.getElementById('showFormButton').style.display = 'none';
+      });
+      
+      document.getElementById('cancelFormButton').addEventListener('click', function () {
+      document.getElementById('assetForm').style.display = 'none';
+      document.getElementById('assetList').style.display = 'block';
+      document.getElementById('cancelFormButton').style.display = 'none';
+      document.getElementById('showFormButton').style.display = 'inline-block';
+      });
+      
+      function fetchAsset() {
+      axios.get('/api/assets/')
+      .then(function (response) {
+      const Assestdata = response.data;
+      let assetRows = '';
+      Assestdata.forEach(function (assets, index) {
+      
+      assetRows += `
+      <tr>
+      <td>${index + 1}</td>
+      <td>${assets.make}</td>
+      <td>${assets.model}</td>
+      <td>${assets.type}</td>
+      <td>${assets.uniqueId}</td>
+      <td>${assets.status}</td>
+      <td>${assets.branch}</td>
+      <td>${assets.value}</td>
+      <td>
+      <button class="btn btn-warning btn-sm" onclick="editAsset(${assets.id})">Edit</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteAsset(${assets.id})">Delete</button>
+      </td>
+      </tr>
+      `;
+      });
+      
+      document.getElementById('assetsBody').innerHTML = assetRows;
+      $('#assetTable').DataTable();
+      })
+      .catch(function (error) {
+      console.error('There was an error fetching the asset data:', error);
+      });
+      }
+      
+      let isEditMode = false;
+      let editingAssetId = null;
+      
+      document.getElementById('assetForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      
+      const make = document.getElementById('assetsMake').value;
+      const model = document.getElementById('assetsModel').value;
+      const type = document.getElementById('assetsType').value;
+      const status = document.getElementById('assetsstatus').value;
+      const branch = document.getElementById('branch').value;
+      const value1 = document.getElementById('value').value;
+      
+      // Check if we are in edit mode
+      if (isEditMode) {
+      // Send a PUT request to update the asset
+      axios.post(`/api/assets/edit/${editingAssetId}`, {
+      make: make,
+      model: model,
+      type: type,
+      status: status,
+      branch: branch,
+      value: value1
+      })
+      .then(function (response) {
+      fetchAsset();
+      resetForm();
+      })
+      .catch(function (error) {
+      console.error('There was an error updating the asset:', error);
+      });
+      } else {
+      // Add a new asset (POST request)
+      axios.post('/api/assets/add', {
+      make: make,
+      model: model,
+      type: type,
+      status: status,
+      serialNumber: Math.floor(100000 + Math.random() * 900000),
+      uniqueId: Math.floor(100000 + Math.random() * 900000),
+      branch: branch,
+      value: value1
+      })
+      .then(function (response) {
+      fetchAsset();
+      resetForm();
+      })
+      .catch(function (error) {
+      console.error('There was an error adding the asset:', error);
+      });
+      }
+      });
+      
+      // Function to trigger edit mode
+      function editAsset(id) {
+      axios.get(`/api/assets/view/${id}`)
+      .then(function (response) {
+      const asset = response.data;
+      document.getElementById('assetsMake').value = asset[0].make;
+      document.getElementById('assetsModel').value = asset[0].model;
+      document.getElementById('assetsType').value = asset[0].type;
+      document.getElementById('assetsstatus').value = asset[0].status;
+      document.getElementById('branch').value = asset[0].branch;
+      document.getElementById('value').value = asset[0].value;
+      
+      // Set the form into edit mode
+      isEditMode = true;
+      editingAssetId = id;
+      
+      // Update the submit button text
+      document.getElementById('submitButton').textContent = 'Update Asset';
+      
+      // Show the form and hide the list
+      document.getElementById('assetForm').style.display = 'block';
+      document.getElementById('assetList').style.display = 'none';
+      document.getElementById('cancelFormButton').style.display = 'inline-block';
+      document.getElementById('showFormButton').style.display = 'none';
+      })
+      .catch(function (error) {
+      console.error('There was an error fetching the asset details:', error);
+      });
+      }
+      
+      // Function to reset form after submission or cancel
+      function resetForm() {
+      document.getElementById('assetForm').reset();
+      document.getElementById('submitButton').textContent = 'Add Asset';
+      
+      isEditMode = false;
+      editingAssetId = null;
+      
+      document.getElementById('assetForm').style.display = 'none';
+      document.getElementById('assetList').style.display = 'block';
+      document.getElementById('cancelFormButton').style.display = 'none';
+      document.getElementById('showFormButton').style.display = 'inline-block';
+      }
+      
+      
+      
+      
+      function deleteAsset(id) {
+      if (confirm('Are you sure you want to delete this asset?')) {
+      axios.post(`/api/assets/delete/${id}`)
+      .then(function (response) {
+      fetchAsset();
+      })
+      .catch(function (error) {
+      console.error('There was an error deleting the asset:', error);
+      });
+      }
+      }
+      
+      fetchAsset();
+      
+      document.addEventListener('DOMContentLoaded', function () {
+      const currentPath = window.location.pathname;
+      const sidebarLinks = document.querySelectorAll('.sidebar-link');
+      
+      sidebarLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active');
+      } else {
+      link.classList.remove('active');
+      }
+      });
+      });
